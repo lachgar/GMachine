@@ -33,7 +33,7 @@ public class Main extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         salleMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
+        machineMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -58,9 +58,14 @@ public class Main extends javax.swing.JFrame {
         });
         fileMenu.add(salleMenuItem);
 
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Machine");
-        fileMenu.add(saveMenuItem);
+        machineMenuItem.setMnemonic('s');
+        machineMenuItem.setText("Machine");
+        machineMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                machineMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(machineMenuItem);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -134,6 +139,13 @@ public class Main extends javax.swing.JFrame {
         sf.setVisible(true);
     }//GEN-LAST:event_salleMenuItemActionPerformed
 
+    private void machineMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_machineMenuItemActionPerformed
+        // TODO add your handling code here:
+        MachineForm mf = new MachineForm();
+        desktopPane.add(mf);
+        mf.setVisible(true);
+    }//GEN-LAST:event_machineMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -180,10 +192,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem machineMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem salleMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 
 }

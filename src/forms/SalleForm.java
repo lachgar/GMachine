@@ -224,7 +224,7 @@ public class SalleForm extends javax.swing.JInternalFrame {
         String code  = txtCode.getText();
         String libelle  = txtLibelle.getText();
         if(ss.update(new Salle(id, code, libelle))){
-            JOptionPane.showMessageDialog(this, "Bien modifier");
+            JOptionPane.showMessageDialog(this, "Bien modifié");
             load();
         }
     }//GEN-LAST:event_bnUpdateActionPerformed
