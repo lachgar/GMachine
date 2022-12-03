@@ -22,6 +22,8 @@ public class MachineForm extends javax.swing.JInternalFrame {
     private SalleService ss;
     private MachineService ms;
     private DefaultTableModel model;
+    private static int id;
+
     /**
      * Creates new form MachineForm
      */
@@ -35,9 +37,9 @@ public class MachineForm extends javax.swing.JInternalFrame {
         loadMachine();
     }
 
-    private void loadMachine(){
+    private void loadMachine() {
         model.setRowCount(0);
-        for(Machine m : ms.findAll()){
+        for (Machine m : ms.findAll()) {
             model.addRow(new Object[]{
                 m.getId(),
                 m.getReference(),
@@ -48,11 +50,13 @@ public class MachineForm extends javax.swing.JInternalFrame {
             });
         }
     }
-    private void loadSalle(){
-        for(Salle s : ss.findAll()){
+
+    private void loadSalle() {
+        for (Salle s : ss.findAll()) {
             salleList.addItem(s);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,7 +76,7 @@ public class MachineForm extends javax.swing.JInternalFrame {
         txtMarque = new javax.swing.JTextField();
         txtPrix = new javax.swing.JTextField();
         txtDateAchat = new com.toedter.calendar.JDateChooser();
-        salleList = new javax.swing.JComboBox();
+        salleList = new javax.swing.JComboBox<Salle>();
         bnAdd = new javax.swing.JButton();
         bnDelete = new javax.swing.JButton();
         bnUpdate = new javax.swing.JButton();
@@ -106,8 +110,18 @@ public class MachineForm extends javax.swing.JInternalFrame {
         });
 
         bnDelete.setText("Supprimer");
+        bnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnDeleteActionPerformed(evt);
+            }
+        });
 
         bnUpdate.setText("Modifier");
+        bnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,6 +202,11 @@ public class MachineForm extends javax.swing.JInternalFrame {
                 "Id", "Référence", "Marque", "Prix", "Date Achat", "Salle"
             }
         ));
+        machineList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                machineListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(machineList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -227,11 +246,45 @@ public class MachineForm extends javax.swing.JInternalFrame {
         Double prix = Double.parseDouble(txtPrix.getText());
         Date dateAchat = txtDateAchat.getDate();
         Salle salle = (Salle) salleList.getSelectedItem();
-        if(ms.create(new Machine(ref, marque, prix, dateAchat, salle))){
+        if (ms.create(new Machine(ref, marque, prix, dateAchat, salle))) {
             JOptionPane.showMessageDialog(this, "Bien ajouté");
             loadMachine();
         }
     }//GEN-LAST:event_bnAddActionPerformed
+
+    private void machineListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_machineListMouseClicked
+        // TODO add your handling code here:
+   
+        id = Integer.parseInt(model.getValueAt(machineList.getSelectedRow(), 0).toString());
+        txtReference.setText(model.getValueAt(machineList.getSelectedRow(), 1).toString());
+        txtMarque.setText(model.getValueAt(machineList.getSelectedRow(), 2).toString());
+        txtPrix.setText(model.getValueAt(machineList.getSelectedRow(), 3).toString());
+        txtDateAchat.setDate((Date) model.getValueAt(machineList.getSelectedRow(), 4));
+        salleList.setSelectedItem((Salle)model.getValueAt(machineList.getSelectedRow(), 5));
+    }//GEN-LAST:event_machineListMouseClicked
+
+    private void bnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnDeleteActionPerformed
+        // TODO add your handling code here:
+        int reponse = JOptionPane.showConfirmDialog(this, "Voulez vous bien supprimer cette machine ?");
+        if (reponse == 0 && id != 0) {
+            ms.delete(ms.findById(id));
+            loadMachine();
+        }
+    }//GEN-LAST:event_bnDeleteActionPerformed
+
+    private void bnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnUpdateActionPerformed
+        // TODO add your handling code here:
+        
+        String ref = txtReference.getText();
+        String marque = txtMarque.getText();
+        Double prix = Double.parseDouble(txtPrix.getText());
+        Date dateAchat = txtDateAchat.getDate();
+        Salle salle = (Salle) salleList.getSelectedItem();
+        if (ms.update(new Machine(id, ref, marque, prix, dateAchat, salle))) {
+            JOptionPane.showMessageDialog(this, "Bien modifié");
+            loadMachine();
+        }
+    }//GEN-LAST:event_bnUpdateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -247,7 +300,7 @@ public class MachineForm extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable machineList;
-    private javax.swing.JComboBox salleList;
+    private javax.swing.JComboBox<Salle> salleList;
     private com.toedter.calendar.JDateChooser txtDateAchat;
     private javax.swing.JTextField txtMarque;
     private javax.swing.JTextField txtPrix;

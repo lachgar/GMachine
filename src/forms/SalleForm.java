@@ -197,7 +197,6 @@ public class SalleForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Bien ajouté");
             load();
         }
-        
     }//GEN-LAST:event_bnAddActionPerformed
 
     private void listSalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSalleMouseClicked
